@@ -3,41 +3,84 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Learning adaptive computation budgets for real-time robot control. Anonymous supplementary material for ICRA 2027.">
   <title>Learning Robot Metareasoning</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 2rem;
-      color: #171717;
-      background: linear-gradient(145deg, #ffffff 0%, #f3f0ff 100%);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    main { width: min(100%, 1050px); text-align: center; }
-    video { display: block; width: 100%; margin: 2rem auto 1rem; background: #000; }
-    a { color: #4935a3; }
-    h1 {
-      max-width: 1050px;
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 4rem);
-      line-height: 1.05;
-      letter-spacing: -0.045em;
-      text-align: center;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <main>
-  <h1>Learning Robot Metareasoning: Adaptive Computation Budgets for Real-Time Control</h1>
-   <h2>ICRA2027</h2>
-  <video controls playsinline preload="metadata" aria-label="Supplementary video">
-    <source src="https://anonymous.4open.science/api/repo/learning-robot-metareasoning-review-68DC/file/icra_submission_supp_20MB.mp4" type="video/mp4">
-    Your browser does not support embedded video. Use the download link below.
-  </video>
-  <p><a href="https://anonymous.4open.science/api/repo/learning-robot-metareasoning-review-68DC/file/icra_submission_supp_20MB.mp4?download=true" download>Download supplementary video</a> (MP4, 19.5 MB)</p>
-  </main>
+<a class="skip" href="#abstract">Skip to content</a>
+<header class="site-header">
+  <a class="wordmark" href="#top"><span class="mark" aria-hidden="true">Φ</span> Robot metareasoning</a>
+  <nav aria-label="Sections"><a href="#method">Method</a><a href="#statistics">Planner statistics</a><a href="#results">Results</a><a href="#conclusion">Conclusion</a><a href="#outlook">Outlook</a></nav>
+</header>
+<main id="top">
+  <section class="hero" aria-labelledby="title">
+    <p class="eyebrow">ICRA 2027 · Anonymous submission</p>
+    <h1 id="title">Learning Robot<br><em>Metareasoning</em></h1>
+    <p class="subtitle">Adaptive Computation Budgets for Real-Time Control</p>
+    <p class="hero-summary">A robot must decide how to act—and how long to think.<br>We learn to balance deliberation and feedback while the world keeps moving.</p>
+    <div class="hero-links"><a class="button primary" href="#method">Explore the method <span aria-hidden="true">↓</span></a><a class="button" href="#video">Watch the experiments <span aria-hidden="true">↗</span></a></div>
+    <div class="triptych">
+      <figure><img src="assets/navigation.png" width="1000" height="750" alt="RoboMaster robots navigating around a barrier and moving obstacles"><figcaption><span>01</span> Ground navigation</figcaption></figure>
+      <figure><img src="assets/flight.png" alt="Simulated quadrotor carrying a suspended cable payload"><figcaption><span>02</span> Cable-payload flight</figcaption></figure>
+      <figure><img src="assets/manipulation.png" alt="Robot arm pushing a T-shaped object toward its target"><figcaption><span>03</span> Contact-rich manipulation</figcaption></figure>
+    </div>
+  </section>
+  <section id="abstract" class="abstract section">
+    <p class="eyebrow">Abstract</p>
+    <p>Planning while moving creates a trade-off: a longer action commitment gives the planner more time to compute, but delays feedback. We cast this shared execution and computation budget as a <strong>semi-Markov decision process</strong> and learn a policy conditioned on the robot state, the current plan, and inexpensive planner statistics. Across ground navigation, cable-payload flight, and contact-rich manipulation, the policy learns when longer deliberation helps and when earlier feedback matters—outperforming fixed budgets where adaptation is useful and matching a strong fixed budget where it is not.</p>
+  </section>
+  <section id="method" class="section">
+    <div class="section-heading"><div><p class="eyebrow">01 / Method</p><h2>One decision.<br>Two coupled budgets.</h2></div><p>The duration <i>h</i><sub>k</sub> determines both how long the robot executes its current plan and how much time the solver has to compute the next one.</p></div>
+    <figure class="method-figure"><div class="method-animation"><img src="assets/method.png" alt="Paper method diagram: a learned policy chooses a budget from the state, plan and planner statistics. Long deliberation and shorter reactive intervals couple concurrent planning and execution."><img class="method-stage stage-plan" src="assets/method-plan.png" alt="" aria-hidden="true"><img class="method-stage stage-observe" src="assets/method-observe.png" alt="" aria-hidden="true"></div><figcaption>Animated build of the method diagram from the paper and supplementary presentation. Plans are handed off at decision boundaries.</figcaption></figure>
+    <div class="budget-demo" aria-label="Interactive illustration of concurrent execution and planning">
+      <div class="demo-top"><div><span class="eyebrow">Explore the shared duration</span><h3>Act and plan at the same time</h3></div><button id="motion" type="button" aria-pressed="false">Pause animations</button></div>
+      <div class="budget-controls"><label for="budget">Commitment <i>h</i> <output id="budget-value" for="budget">6 steps</output></label><input id="budget" type="range" min="1" max="9" value="6"><div class="range-labels"><span>Earlier feedback</span><span>More computation time</span></div></div>
+      <div class="time-lanes"><div class="lane-label">Robot executes <span>current plan τ<sub>k</sub></span></div><div class="track execution"><div class="window"><span class="sweep"></span></div><span class="boundary"></span></div><div class="lane-label">Solver computes <span>next plan τ<sub>k+1</sub></span></div><div class="track planning"><div class="window"><span class="sweep"></span></div><span class="boundary"></span></div><span></span><div class="time-axis"><span>t<sub>k</sub></span><span>Environment time →</span></div></div>
+      <p class="demo-note">At <span class="math">t<sub>k+1</sub> = t<sub>k</sub> + h<sub>k</sub></span>, observe again and hand off the new plan. <span>Illustration; the slider does not run the learned policy.</span></p>
+    </div>
+    <div class="method-steps"><article><span class="step-number">1</span><h3>Observe</h3><p>Combine the current state, executing plan, previous duration, and the solver’s statistics.</p></article><article><span class="step-number">2</span><h3>Allocate</h3><p>The learned policy selects a duration. Longer commitments allow more solver resources while extending open-loop execution.</p></article><article><span class="step-number">3</span><h3>Act, plan, repeat</h3><p>Execute the current plan while computing its successor. Refresh the context at the next decision epoch.</p></article></div>
+    <details><summary>How the budget policy is trained</summary><p>We train the budget policy with PPO over decision epochs, keeping the low-level solver fixed. Rewards accumulate over each action chunk, and bootstrapping uses the duration-aware discount γ<sup>h</sup>. This preserves the underlying control objective while allowing the interval between decisions to change. Our experiments use sampling-based MPPI or CEM planners.</p></details>
+  </section>
+  <section id="statistics" class="section">
+    <div class="section-heading"><div><p class="eyebrow">02 / Planner statistics</p><h2>Feedback from<br>the planner itself.</h2></div><p>Three inexpensive signals describe the search, its feasibility margin, and the reliability of its model. They use existing rollouts and execution feedback, with no extra planner call.</p></div>
+    <p class="small-note">Animated illustrations, not recorded measurements. The policy learns to interpret these signals together with the state and plan.</p>
+    <div class="statistics-grid">
+      <article class="stat"><div class="stat-label"><span>01</span><span>Search concentration</span></div>
+        <svg viewBox="0 0 320 210" role="img" aria-labelledby="ess-title"><title id="ess-title">Rollout weights alternate between a concentrated and a diffuse distribution</title><path class="grid" d="M25 45H295 M25 90H295 M25 135H295 M25 180H295"/><g class="weight-bars" fill="var(--purple)"><rect x="40" y="80" width="22" height="100" style="--a:.15;--b:.65"/><rect x="76" y="80" width="22" height="100" style="--a:.24;--b:.72"/><rect x="112" y="80" width="22" height="100" style="--a:.48;--b:.66"/><rect x="148" y="80" width="22" height="100" style="--a:1.4;--b:.75"/><rect x="184" y="80" width="22" height="100" style="--a:.35;--b:.68"/><rect x="220" y="80" width="22" height="100" style="--a:.18;--b:.72"/><rect x="256" y="80" width="22" height="100" style="--a:.12;--b:.64"/></g><text x="25" y="202">Sampled rollouts</text><text x="25" y="24">Relative weight</text></svg>
+        <h3>Effective sample size</h3><p>Are a few rollouts dominating the update, or do many contribute comparably?</p><p class="formula">ESS = 1 / (K Σᵢ wᵢ²)</p><p class="detail">Low ESS means concentrated weights. High ESS can reflect a flat cost landscape or search that has contracted around a solution; it does not by itself certify a good plan.</p>
+      </article>
+      <article class="stat"><div class="stat-label"><span>02</span><span>Feasibility margin</span></div>
+        <svg viewBox="0 0 320 210" role="img" aria-labelledby="feas-title"><title id="feas-title">A rollout approaches its first predicted constraint violation</title><rect x="25" y="35" width="270" height="145" rx="5" fill="#edf5f3"/><path d="M228 35V180" stroke="#b55a6a" stroke-dasharray="4 5"/><path d="M228 35H295V180H228Z" fill="#f8e6e8"/><path d="M38 155C95 152 115 72 170 85S241 130 283 60" fill="none" stroke="var(--teal)" stroke-width="2.5"/><circle class="feas-dot" cx="38" cy="155" r="7" fill="var(--teal)"/><circle cx="228" cy="104" r="7" fill="white" stroke="#b55a6a" stroke-width="2"/><path d="M224 100L232 108M232 100L224 108" stroke="#b55a6a"/><text x="36" y="55">Feasible set</text><text x="25" y="202">First predicted violation →</text></svg>
+        <h3>Time to infeasibility</h3><p>How many predicted steps remain before a rollout leaves the feasible set?</p><p class="formula">First step outside 𝒞</p><p class="detail">This measures the plan’s remaining feasibility margin. A nearby constraint violation is relevant to how long the robot can commit before receiving fresh feedback.</p>
+      </article>
+      <article class="stat"><div class="stat-label"><span>03</span><span>Model reliability</span></div>
+        <svg viewBox="0 0 320 210" role="img" aria-labelledby="mismatch-title"><title id="mismatch-title">Predicted and observed object positions separate, revealing model mismatch</title><path class="grid" d="M25 45H295 M25 90H295 M25 135H295 M25 180H295"/><path d="M35 151C105 151 128 100 205 92S255 75 282 61" fill="none" stroke="#bbc5cc" stroke-width="24" opacity=".28"/><path d="M35 151C105 151 128 100 205 92S255 75 282 61" fill="none" stroke="var(--blue)" stroke-width="2" stroke-dasharray="6 5"/><circle cx="205" cy="92" r="10" fill="white" stroke="var(--blue)" stroke-width="2"/><path class="error-line" d="M205 92V143" stroke="var(--purple)" stroke-width="2" stroke-dasharray="3 4"/><circle class="observed" cx="205" cy="143" r="10" fill="var(--purple)"/><text x="25" y="202">Prediction</text><path d="M96 197h30" stroke="var(--blue)" stroke-dasharray="4 3"/><text x="171" y="202">Observation</text><circle cx="272" cy="197" r="4" fill="var(--purple)"/></svg>
+        <h3>Dynamics-model mismatch</h3><p>How far has the observed world moved from the planner’s prediction?</p><p class="formula">Mean positional displacement</p><p class="detail">We compare predicted and realised positions of objects intersecting the rollout tube. The displacement gives the policy an online signal of model reliability.</p>
+      </article>
+    </div>
+    <aside class="ablation"><strong>Useful together.</strong><p>In the navigation input ablation, the full policy reaches <b>98%</b> success; removing planner statistics reduces it to <b>86%</b>. Statistics alone reach <b>74%</b>. State and solver feedback are complementary.</p><span>300 episodes per variant · Separate ablation evaluation</span></aside>
+  </section>
+  <section id="results" class="section">
+    <div class="section-heading"><div><p class="eyebrow">03 / Results</p><h2>Adaptation follows<br>the task’s demands.</h2></div><p>Dynamic obstacles, stiff flight dynamics, and changing contacts stress the computation–reactivity trade-off in different ways.</p></div>
+    <div class="results-grid">
+      <article><p class="result-number">98.7<span>%</span></p><h3>Navigation success</h3><p>Versus 76.0% for the best fixed commitment by pooled success rate (<i>h</i> = 5), across 300 evaluation episodes.</p><div class="comparison" aria-label="Navigation: adaptive 98.7 percent; best fixed 76 percent"><div><span>Adaptive</span><i style="--value:98.67%;"></i><b>98.7%</b></div><div><span>Fixed</span><i class="fixed" style="--value:76%;"></i><b>76.0%</b></div></div></article>
+      <article><p class="result-number">80<span>%</span></p><h3>Cable-payload success</h3><p>The learned policy completes both goals in 80% of trials. Every evaluated fixed commitment fails the full task.</p><div class="comparison" aria-label="Cable payload: adaptive 80 percent; fixed commitments zero percent"><div><span>Adaptive</span><i style="--value:80%;"></i><b>80%</b></div><div><span>Fixed</span><i class="fixed" style="--value:0%;"></i><b>0%</b></div></div></article>
+      <article><p class="result-number">0.65<span> cm</span></p><h3>Push-T position error</h3><p>The policy settles on <i>h</i> = 8 and matches the best fixed budget by mean terminal position error.</p><p class="result-detail">0.65 ± 0.48 cm<br><span>Mean ± sample standard deviation<br>16 matched episodes · 600 steps</span></p></article>
+    </div>
+    <div class="finding"><h3>Longer for transit.<br>Shorter when feedback matters.</h3><p>On the RoboMaster, the policy reduces commitment while passing a crossing robot and navigating a tight passage. In cable-payload flight, it allocates longer budgets during transit and shorter commitments near targets. In nominal Push-T, exact dynamics, full observation, and no disturbances leave little incentive to adapt.</p></div>
+    <div class="deployment" id="sim-to-real">
+      <figure><img src="assets/robomaster-cad.png" width="1000" height="750" loading="lazy" alt="Rendering of the Cambridge RoboMaster STEP reconstruction, showing four mecanum wheels, raised compute assembly and optical tracking markers"><figcaption>RoboMaster CAD reconstruction · Rendered from the platform’s STEP assembly.</figcaption></figure>
+      <div><p class="eyebrow">Physical deployment</p><h3>Simulation to reality</h3><p>We deploy on the Cambridge RoboMaster platform <a href="https://arxiv.org/abs/2405.02198">(Blumenkamp et al., 2024)</a>, shown here using a STEP reconstruction of its chassis, mecanum wheels, raised compute assembly, and tracking markers. Transfer retains the learned budget policy and budget-to-planner mapping; motion-capture state and the ROS 2 control stack replace simulated sensing and execution. The similar budget patterns observed in simulation and hardware suggest a small gap for this navigation task. The CAD reconstruction visualises the hardware geometry; planning retains the navigation dynamics model.</p>
+      <h3>ROS timing and plan handoff</h3><p>Planning and execution run in separate ROS 2 processes. The navigation control timer is set to 100 ms, so a commitment of <i>h</i> steps targets a window of <i>h</i> × 100 ms. The planner uses a 10 ms request-polling timer, using the state snapshot and active trajectory captured at the window’s start. The mission buffers the result and switches at the selected action index. If computation runs late, it continues along the current trajectory’s remaining actions and logs the missed deadline; exhausting that trajectory triggers a final hold and termination. Timing events record the request, solve, receipt, and action issue times so computation and communication delays can be inspected separately.</p></div>
+    </div>
+    <p class="reference">Platform reference: J. Blumenkamp, A. Shankar, M. Bettini, J. Bird, and A. Prorok. <a href="https://arxiv.org/abs/2405.02198">The Cambridge RoboMaster: An Agile Multi-Robot Research Platform</a>. DARS, 2024.</p>
+    <div id="video"><div class="video-heading"><h3>See the policy in action</h3><span>Supplementary video · 3 min</span></div><video controls playsinline preload="metadata" poster="assets/navigation.png" aria-label="Supplementary video showing the method, simulated cable flight, and real-world navigation"><source src="https://anonymous.4open.science/api/repo/learning-robot-metareasoning-review-68DC/file/icra_submission_supp_20MB.mp4" type="video/mp4">Your browser does not support embedded video. Use the download link below.</video><p class="video-download"><a href="https://anonymous.4open.science/api/repo/learning-robot-metareasoning-review-68DC/file/icra_submission_supp_20MB.mp4?download=true" download>Download supplementary video ↗</a><span>MP4 · 19.5 MB</span></p></div>
+  </section>
+  <section id="conclusion" class="section conclusion"><p class="eyebrow">04 / Conclusion</p><h2>How long to think<br>is part of how to act.</h2><p>Computation has a physical cost: while the solver deliberates, the robot continues executing an ageing plan. Learning the shared budget lets a robot adapt this trade-off to its current situation. Planner statistics help reveal when more search is useful and when earlier feedback matters. The benefit depends on exploitable variation in the task; a constant budget can still be the right outcome.</p></section>
+  <section id="outlook" class="section outlook"><div><p class="eyebrow">05 / Outlook</p><h2>Beyond a fixed<br>view of the planner.</h2><p>Future work will explore richer representations and more expressive planning systems.</p></div><div class="outlook-list"><article><span>01</span><div><h3>Richer planner statistics</h3><p>Go beyond compact summaries to capture more of the structure in the planner’s search.</p></div></article><article><span>02</span><div><h3>Learned world models</h3><p>Study adaptive computation when the robot’s predictive model is itself learned.</p></div></article><article><span>03</span><div><h3>More expressive planners</h3><p>Extend the framework to planning algorithms with a broader range of computational choices.</p></div></article></div></section>
+</main>
+<footer><span>Learning Robot Metareasoning</span><span>Anonymous supplementary material · ICRA 2027</span><a href="#top">Back to top ↑</a></footer>
 </body>
 </html>

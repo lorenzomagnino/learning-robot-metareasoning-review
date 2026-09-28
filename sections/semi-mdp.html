@@ -1,0 +1,16 @@
+  <section class="semi-mdp" aria-labelledby="semi-mdp-heading">
+    <h2 id="semi-mdp-heading">Semi-MDP</h2>
+    <div class="semi-mdp-grid">
+      <p>The policy selects a commitment <i>h</i><sub>k</sub> from context <i>z</i><sub>k</sub>. Each decision advances time by that duration; summing step rewards ρ within the chunk and discounting by elapsed time preserves the original control objective.</p>
+      <div class="semi-mdp-formulas">
+        <a class="formula" href="assets/formulas/budget.pdf"><img src="assets/formulas/budget.png" style="width: 15.960rem" alt="Budget policy and decision time: h k is sampled from Phi theta given z k; t k plus one equals t k plus h k." loading="lazy"></a>
+        <a class="formula" href="assets/formulas/reward.pdf"><img src="assets/formulas/reward.png" style="width: 15.768rem" alt="Chunk reward is the sum of gamma to j times the step reward rho, from j equals zero to h k minus one." loading="lazy"></a>
+        <a class="formula" href="assets/formulas/objective.pdf"><img src="assets/formulas/objective.png" style="width: 12.192rem" alt="Maximise the expected sum over epochs of gamma to t k times the chunk reward." loading="lazy"></a>
+      </div>
+      <figure class="reveal-animation">
+        <input type="checkbox" id="pause-epoch"><label for="pause-epoch">Pause animation</label>
+        <a class="figure-reveal" href="assets/epoch-clock.png"><img src="assets/epoch-clock.png" alt="Semi-MDP decision epochs sample the underlying environment trajectory at variable intervals h₁ through h₄." loading="lazy"></a>
+        <figcaption>Variable decision epochs, fixed control steps.</figcaption>
+      </figure>
+    </div>
+  </section>

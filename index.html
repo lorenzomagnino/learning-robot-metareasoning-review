@@ -6,26 +6,77 @@
   <title>Learning Robot Metareasoning</title>
   <style>
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 2rem;
-      color: #171717;
-      background: linear-gradient(145deg, #ffffff 0%, #f3f0ff 100%);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    main { width: min(100%, 1050px); text-align: center; }
-    video { display: block; width: 100%; margin: 2rem auto 1rem; background: #000; }
+    body { margin: 0; padding: 2rem; color: #171717; background: #fff; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { max-width: 1200px; margin: auto; text-align: center; }
     a { color: #4935a3; }
-    h1 {
-      max-width: 1050px;
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 4rem);
-      line-height: 1.05;
-      letter-spacing: -0.045em;
-      text-align: center;
+    h1 { max-width: 1050px; margin: auto; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; letter-spacing: -.045em; }
+    h2 { margin: 0 0 1rem; font-size: 1.5rem; }
+    main > h2 { margin: 1rem 0; }
+    h3 { margin: 0 0 .65rem; font-size: 1rem; }
+    p { line-height: 1.6; }
+    section { margin-top: 2rem; }
+    figure { margin: 0; min-width: 0; }
+    img { display: block; width: 100%; height: auto; }
+    video { display: block; width: 100%; background: #000; }
+    main > video { max-width: 850px; max-height: 420px; margin: 1.5rem auto .75rem; }
+    figcaption { margin-top: .5rem; font-size: .8rem; line-height: 1.45; color: #555; }
+    .abstract { max-width: 95ch; margin-inline: auto; }
+    .abstract p, .method p { text-align: left; }
+    .abstract p { margin: .65rem 0; font-size: .95rem; }
+    .method figure { max-width: 1000px; margin: auto; }
+    .method p { max-width: 78ch; margin: 1rem auto 0; }
+    .semi-mdp, .planner-statistics, .results { text-align: left; }
+    .semi-mdp h2, .planner-statistics h2 { font-size: 1.2rem; }
+    .semi-mdp-grid { display: grid; grid-template-columns: .9fr 1.2fr 1fr; gap: 1.5rem; align-items: center; }
+    .semi-mdp-grid > *, .result-row > * { min-width: 0; }
+    .semi-mdp-grid p { margin: 0; font-size: .9rem; }
+    .formula { display: block; margin: .65rem 0; }
+    .formula img { max-width: 100%; height: auto; margin-inline: auto; }
+    .reveal-animation label { font-size: .75rem; color: #555; cursor: pointer; }
+    .figure-reveal { display: block; margin-top: .5rem; }
+    .figure-reveal img { animation: figure-reveal 6s linear infinite; }
+    .layered-plot { position: relative; }
+    .figure-reveal .plot-background { animation: none; }
+    .plot-curves { position: absolute; inset: 0; }
+    .figure-reveal .plot-curves { animation-duration: 12s; }
+    .reveal-animation input:checked ~ .figure-reveal img { animation-play-state: paused; }
+    @keyframes figure-reveal {
+      0%, 5% { clip-path: inset(0 100% 0 0); }
+      70%, 100% { clip-path: inset(0 0 0 0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .figure-reveal img { animation: none; }
+      .reveal-animation input, .reveal-animation label { display: none; }
+    }
+    .statistics-signals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .statistics-signals > div { padding: 1rem; border: 1px solid #ddd6ee; border-radius: 6px; }
+    .statistics-signals h3 { font-size: .95rem; }
+    .statistics-signals p { margin: 0; font-size: .875rem; }
+    .result-row { display: grid; gap: 1.25rem; align-items: start; }
+    .result-group + .result-group { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid #eee; }
+    .navigation-row { grid-template-columns: 1fr 2fr; }
+    .navigation-plots { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .navigation-plots > :first-child { grid-column: 1 / -1; }
+    .drone-row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .arm-row { grid-template-columns: 1fr 1fr; align-items: center; }
+    .results video { aspect-ratio: 16 / 9; object-fit: contain; }
+    .drone-row video { aspect-ratio: auto; height: auto; }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .8rem; text-align: right; font-variant-numeric: tabular-nums; }
+    caption { text-align: left; margin-bottom: .6rem; color: #555; line-height: 1.4; }
+    th, td { padding: .3rem .6rem; border-bottom: 1px solid #eee; white-space: nowrap; }
+    th:first-child { text-align: left; }
+    tbody tr:last-child { background: #f3f0ff; font-weight: 600; }
+    .result-note { font-size: .8rem; color: #555; margin-bottom: 0; }
+    @media (max-width: 900px) {
+      .semi-mdp-grid { grid-template-columns: 1fr 1fr; }
+      .semi-mdp-grid > p { grid-column: 1 / -1; }
+      .drone-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      body { padding: 1.25rem; }
+      .semi-mdp-grid, .statistics-signals, .result-row, .navigation-plots { grid-template-columns: 1fr; }
+      .semi-mdp-grid > p, .navigation-plots > :first-child { grid-column: auto; }
     }
   </style>
 </head>
@@ -33,11 +84,157 @@
   <main>
   <h1>Learning Robot Metareasoning: Adaptive Computation Budgets for Real-Time Control</h1>
    <h2>ICRA2027</h2>
-  <video controls playsinline preload="metadata" aria-label="Supplementary video">
+  <video controls autoplay muted loop playsinline preload="auto" aria-label="Supplementary video">
     <source src="https://anonymous.4open.science/api/repo/learning-robot-metareasoning-review-68DC/file/icra_submission_supp_20MB.mp4" type="video/mp4">
     Your browser does not support embedded video. Use the download link below.
   </video>
   <p><a href="https://anonymous.4open.science/api/repo/learning-robot-metareasoning-review-68DC/file/icra_submission_supp_20MB.mp4?download=true" download>Download supplementary video</a> (MP4, 19.5 MB)</p>
+  <section class="abstract" aria-labelledby="abstract-heading">
+    <h2 id="abstract-heading">Abstract</h2>
+    <p>Planning while moving faces an historical trade-off between deliberation and reactivity. A planner running concurrently with execution needs time to compute, so the robot must commit to an open-loop action chunk for that duration: a longer commitment buys a better plan at the cost of feedback frequency. Existing controllers fix this action commitment, and consequently the computation budget, before deployment. However, the optimal computation time is highly state-dependent (due to factors such as unmodeled dynamics, safety constraints, and marginal optimisation gains), i.e. dynamic, therefore offline static tuning risks leaving systems blind during critical maneuvers or unable to find global effective solutions. We cast the identification of the optimal computation budget as a semi-Markov decision process (SMDP) in which a single decision defines both the robot action commitments and the time allocated to the solver. To solve this, we train a reinforcement-learning policy conditioned on the current state, the executing plan, and inexpensive planner statistics. Across ground-robot navigation, agile quadrotor flight, and contact-rich manipulation, the learned policy changes its budget with the demands of the scenario, discovering efficient reasoning patterns that outperform fixed-budget baselines.</p>
+  </section>
+  <section class="method" aria-labelledby="method-heading">
+    <h2 id="method-heading">Method</h2>
+    <figure>
+      <a href="assets/method-overview.png" aria-label="View Figure 2 at full resolution">
+        <img src="assets/method-overview.png" width="2042" height="592" loading="lazy" alt="Method overview: the state, previous plan and planner statistics inform a learned budget policy. Its chosen duration determines how long the robot executes its current plan while the solver computes the next one, adapting between long deliberation and reactive control.">
+      </a>
+    </figure>
+    <p>Our learned budget policy uses the robot state, current plan and planner statistics to choose how long to act before receiving feedback. This commitment also gives the solver time to compute the next plan, balancing deeper optimisation against faster reactions.</p>
+  </section>
+  <section class="semi-mdp" aria-labelledby="semi-mdp-heading">
+    <h2 id="semi-mdp-heading">Semi-MDP</h2>
+    <div class="semi-mdp-grid">
+      <p>The policy selects a commitment <i>h</i><sub>k</sub> from context <i>z</i><sub>k</sub>. Each decision advances time by that duration; summing step rewards ρ within the chunk and discounting by elapsed time preserves the original control objective.</p>
+      <div class="semi-mdp-formulas">
+        <a class="formula" href="assets/formulas/budget.pdf"><img src="assets/formulas/budget.png" style="width: 15.960rem" alt="Budget policy and decision time: h k is sampled from Phi theta given z k; t k plus one equals t k plus h k." loading="lazy"></a>
+        <a class="formula" href="assets/formulas/reward.pdf"><img src="assets/formulas/reward.png" style="width: 15.768rem" alt="Chunk reward is the sum of gamma to j times the step reward rho, from j equals zero to h k minus one." loading="lazy"></a>
+        <a class="formula" href="assets/formulas/objective.pdf"><img src="assets/formulas/objective.png" style="width: 12.192rem" alt="Maximise the expected sum over epochs of gamma to t k times the chunk reward." loading="lazy"></a>
+      </div>
+      <figure class="reveal-animation">
+        <input type="checkbox" id="pause-epoch"><label for="pause-epoch">Pause animation</label>
+        <a class="figure-reveal" href="assets/epoch-clock.png"><img src="assets/epoch-clock.png" alt="Semi-MDP decision epochs sample the underlying environment trajectory at variable intervals h₁ through h₄." loading="lazy"></a>
+        <figcaption>Variable decision epochs, fixed control steps.</figcaption>
+      </figure>
+    </div>
+  </section>
+  <section class="planner-statistics" aria-labelledby="planner-statistics-heading">
+    <h2 id="planner-statistics-heading">Planner Statistics</h2>
+    <div class="statistics-signals">
+      <div>
+        <h3>Effective sample size</h3>
+        <a class="formula" href="assets/formulas/ess.pdf"><img src="assets/formulas/ess.png" style="width: 8.976rem" alt="ESS equals one divided by K times the sum of squared normalised rollout weights." loading="lazy"></a>
+        <p>How concentrated are the rollout weights? With K rollouts and normalised weights wᵢ, low ESS means a few candidates dominate; high ESS means many contribute.</p>
+      </div>
+      <div>
+        <h3>Time to infeasibility</h3>
+        <a class="formula" href="assets/formulas/tti.pdf"><img src="assets/formulas/tti.png" style="width: 10.560rem" alt="TTI is the earliest predicted step j for which the state is outside the feasible set C." loading="lazy"></a>
+        <p>How soon does a rollout leave the feasible set? The earliest predicted violation measures the remaining safety margin.</p>
+      </div>
+      <div>
+        <h3>Model mismatch</h3>
+        <a class="formula" href="assets/formulas/mismatch.pdf"><img src="assets/formulas/mismatch.png" style="width: 10.920rem" alt="Mean Euclidean distance between predicted and observed positions over objects O intersecting the rollout tube." loading="lazy"></a>
+        <p>How far do predicted and observed object positions differ within the rollout tube? Larger errors indicate less reliable predictions.</p>
+      </div>
+    </div>
+  </section>
+  <section class="results" aria-labelledby="results-heading">
+    <h2 id="results-heading">Results</h2>
+    <div class="result-group">
+      <h3>Navigation</h3>
+      <div class="result-row navigation-row">
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/navigation-adaptive.jpg" aria-label="Adaptive policy navigating the real-world merging lane">
+            <source src="assets/navigation-adaptive.mp4" type="video/mp4">
+            <a href="assets/navigation-adaptive.mp4">Download navigation video</a>
+          </video>
+          <figcaption>Adaptive computation in the real-world Merging Lane scenario.</figcaption>
+        </figure>
+        <div class="navigation-plots">
+          <figure>
+            <a href="assets/navigation-results.png"><img src="assets/navigation-results.png" loading="lazy" alt="Figure 4: adaptive and fixed budgets compared on success rate, total return, return on successes and harshness on successes."></a>
+            <figcaption>Fig. 4 · 300 episodes across three scenarios. The last two panels include successful episodes only.</figcaption>
+          </figure>
+          <figure class="reveal-animation">
+            <input type="checkbox" id="pause-regret"><label for="pause-regret">Pause animation</label>
+            <a class="figure-reveal layered-plot" href="assets/navigation-regret.png" aria-label="Figure 6: optimality regret along three fixed-commitment trajectories in Merging Lane">
+              <img class="plot-background" src="assets/navigation-regret-background.png" loading="lazy" alt="">
+              <img class="plot-curves" src="assets/navigation-regret.png" loading="lazy" alt="">
+            </a>
+            <figcaption>Fig. 6 · Budget optimality changes along a trajectory.</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/navigation-ablation.png"><img src="assets/navigation-ablation.png" loading="lazy" alt="Figure 7: navigation success and return with full inputs, planner statistics only, and inputs without planner statistics."></a>
+            <figcaption>Fig. 7 · Ablation of planner statistics.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+    <div class="result-group">
+      <h3>Drone with cable payload</h3>
+      <div class="result-row drone-row">
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-reactive.jpg" aria-label="Drone using a fixed reactive budget of one step">
+            <source src="assets/drone-reactive.mp4" type="video/mp4">
+            <a href="assets/drone-reactive.mp4">Download reactive drone video</a>
+          </video>
+          <figcaption><strong>Reactive · h = 1</strong><br>0/2 goals reached · 1.7× speed</figcaption>
+        </figure>
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-long.jpg" aria-label="Drone using a fixed long-deliberation budget of nine steps">
+            <source src="assets/drone-long.mp4" type="video/mp4">
+            <a href="assets/drone-long.mp4">Download long-deliberation drone video</a>
+          </video>
+          <figcaption><strong>Long deliberation · h = 9</strong><br>1/2 goals reached · 1.7× speed</figcaption>
+        </figure>
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-adaptive.jpg" aria-label="Drone using the learned adaptive computation budget">
+            <source src="assets/drone-adaptive.mp4" type="video/mp4">
+            <a href="assets/drone-adaptive.mp4">Download adaptive drone video</a>
+          </video>
+          <figcaption><strong>Adaptive · ours</strong><br>2/2 goals reached</figcaption>
+        </figure>
+        <figure>
+          <a href="assets/drone-results.png"><img src="assets/drone-results.png" loading="lazy" alt="Figure 9: mean cable-payload slalom return for the full policy, planner-statistics ablations and fixed budgets."></a>
+          <figcaption>Fig. 9 · Mean return over 20 episodes per method.</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="result-group">
+      <h3>Contact-rich manipulation</h3>
+      <div class="result-row arm-row">
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/arm.jpg" aria-label="Robot arm performing planar PushT manipulation">
+            <source src="assets/arm.mp4" type="video/mp4">
+            <a href="assets/arm.mp4">Download manipulation video</a>
+          </video>
+          <figcaption>Planar PushT manipulation.</figcaption>
+        </figure>
+        <div>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Manipulation results table">
+            <table>
+              <caption>Terminal errors after 600 steps: mean ± sample standard deviation over 16 matched episodes. Lower is better.</caption>
+              <thead><tr><th scope="col">Budget h</th><th scope="col">Δx [cm] ↓</th><th scope="col">Δθ [rad] ↓</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">1</th><td>9.41 ± 1.55</td><td>0.090 ± 0.055</td></tr>
+                <tr><th scope="row">2</th><td>8.22 ± 2.65</td><td>0.100 ± 0.066</td></tr>
+                <tr><th scope="row">3</th><td>5.79 ± 4.50</td><td>0.049 ± 0.057</td></tr>
+                <tr><th scope="row">4</th><td>4.19 ± 4.79</td><td>0.044 ± 0.056</td></tr>
+                <tr><th scope="row">5</th><td>4.48 ± 4.64</td><td>0.054 ± 0.060</td></tr>
+                <tr><th scope="row">6</th><td>4.95 ± 4.64</td><td>0.072 ± 0.071</td></tr>
+                <tr><th scope="row">7</th><td>1.21 ± 1.65</td><td>0.018 ± 0.023</td></tr>
+                <tr><th scope="row">8</th><td><strong>0.65</strong> ± 0.48</td><td>0.020 ± 0.017</td></tr>
+                <tr><th scope="row">9</th><td>1.13 ± 1.46</td><td>0.022 ± 0.018</td></tr>
+                <tr><th scope="row">10</th><td>0.76 ± 0.71</td><td><strong>0.016</strong> ± 0.014</td></tr>
+                <tr><th scope="row">Ours (h̄ = 8)</th><td>0.65 ± 0.48</td><td>0.020 ± 0.017</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="result-note">The policy selects h = 8 throughout, matching that fixed budget in this nominal setting.</p>
+        </div>
+      </div>
+    </div>
+  </section>
   </main>
 </body>
 </html>

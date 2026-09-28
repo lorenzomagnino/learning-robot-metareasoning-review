@@ -1,0 +1,20 @@
+  <section class="planner-statistics" aria-labelledby="planner-statistics-heading">
+    <h2 id="planner-statistics-heading">Planner Statistics</h2>
+    <div class="statistics-signals">
+      <div>
+        <h3>Effective sample size</h3>
+        <a class="formula" href="assets/formulas/ess.pdf"><img src="assets/formulas/ess.png" style="width: 8.976rem" alt="ESS equals one divided by K times the sum of squared normalised rollout weights." loading="lazy"></a>
+        <p>How concentrated are the rollout weights? With K rollouts and normalised weights wᵢ, low ESS means a few candidates dominate; high ESS means many contribute.</p>
+      </div>
+      <div>
+        <h3>Time to infeasibility</h3>
+        <a class="formula" href="assets/formulas/tti.pdf"><img src="assets/formulas/tti.png" style="width: 10.560rem" alt="TTI is the earliest predicted step j for which the state is outside the feasible set C." loading="lazy"></a>
+        <p>How soon does a rollout leave the feasible set? The earliest predicted violation measures the remaining safety margin.</p>
+      </div>
+      <div>
+        <h3>Model mismatch</h3>
+        <a class="formula" href="assets/formulas/mismatch.pdf"><img src="assets/formulas/mismatch.png" style="width: 10.920rem" alt="Mean Euclidean distance between predicted and observed positions over objects O intersecting the rollout tube." loading="lazy"></a>
+        <p>How far do predicted and observed object positions differ within the rollout tube? Larger errors indicate less reliable predictions.</p>
+      </div>
+    </div>
+  </section>

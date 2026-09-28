@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning Robot Metareasoning</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 2rem; color: #171717; background: #fff; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { max-width: 1200px; margin: auto; text-align: center; }
+    a { color: #4935a3; }
+    h1 { max-width: 1050px; margin: auto; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; letter-spacing: -.045em; }
+    h2 { margin: 0 0 1rem; font-size: 1.5rem; }
+    main > h2 { margin: 1rem 0; }
+    h3 { margin: 0 0 .65rem; font-size: 1rem; }
+    p { line-height: 1.6; }
+    section { margin-top: 2rem; }
+    figure { margin: 0; min-width: 0; }
+    img { display: block; width: 100%; height: auto; }
+    video { display: block; width: 100%; background: #000; }
+    main > video { max-width: 850px; max-height: 420px; margin: 1.5rem auto .75rem; }
+    figcaption { margin-top: .5rem; font-size: .8rem; line-height: 1.45; color: #555; }
+    .abstract { max-width: 95ch; margin-inline: auto; }
+    .abstract p, .method p { text-align: left; }
+    .abstract p { margin: .65rem 0; font-size: .95rem; }
+    .method figure { max-width: 1000px; margin: auto; }
+    .method p { max-width: 78ch; margin: 1rem auto 0; }
+    .semi-mdp, .planner-statistics, .results { text-align: left; }
+    .semi-mdp h2, .planner-statistics h2 { font-size: 1.2rem; }
+    .semi-mdp-grid { display: grid; grid-template-columns: .9fr 1.2fr 1fr; gap: 1.5rem; align-items: center; }
+    .semi-mdp-grid > *, .result-row > * { min-width: 0; }
+    .semi-mdp-grid p { margin: 0; font-size: .9rem; }
+    .formula { display: block; margin: .65rem 0; }
+    .formula img { max-width: 100%; height: auto; margin-inline: auto; }
+    .reveal-animation label { font-size: .75rem; color: #555; cursor: pointer; }
+    .figure-reveal { display: block; margin-top: .5rem; }
+    .figure-reveal img { animation: figure-reveal 6s linear infinite; }
+    .layered-plot { position: relative; }
+    .figure-reveal .plot-background { animation: none; }
+    .plot-curves { position: absolute; inset: 0; }
+    .figure-reveal .plot-curves { animation-duration: 12s; }
+    .reveal-animation input:checked ~ .figure-reveal img { animation-play-state: paused; }
+    @keyframes figure-reveal {
+      0%, 5% { clip-path: inset(0 100% 0 0); }
+      70%, 100% { clip-path: inset(0 0 0 0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .figure-reveal img { animation: none; }
+      .reveal-animation input, .reveal-animation label { display: none; }
+    }
+    .statistics-signals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .statistics-signals > div { padding: 1rem; border: 1px solid #ddd6ee; border-radius: 6px; }
+    .statistics-signals h3 { font-size: .95rem; }
+    .statistics-signals p { margin: 0; font-size: .875rem; }
+    .result-row { display: grid; gap: 1.25rem; align-items: start; }
+    .result-group + .result-group { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid #eee; }
+    .navigation-row { grid-template-columns: 1fr 2fr; }
+    .navigation-plots { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .navigation-plots > :first-child { grid-column: 1 / -1; }
+    .drone-row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .arm-row { grid-template-columns: 1fr 1fr; align-items: center; }
+    .results video { aspect-ratio: 16 / 9; object-fit: contain; }
+    .drone-row video { aspect-ratio: auto; height: auto; }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .8rem; text-align: right; font-variant-numeric: tabular-nums; }
+    caption { text-align: left; margin-bottom: .6rem; color: #555; line-height: 1.4; }
+    th, td { padding: .3rem .6rem; border-bottom: 1px solid #eee; white-space: nowrap; }
+    th:first-child { text-align: left; }
+    tbody tr:last-child { background: #f3f0ff; font-weight: 600; }
+    .result-note { font-size: .8rem; color: #555; margin-bottom: 0; }
+    @media (max-width: 900px) {
+      .semi-mdp-grid { grid-template-columns: 1fr 1fr; }
+      .semi-mdp-grid > p { grid-column: 1 / -1; }
+      .drone-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      body { padding: 1.25rem; }
+      .semi-mdp-grid, .statistics-signals, .result-row, .navigation-plots { grid-template-columns: 1fr; }
+      .semi-mdp-grid > p, .navigation-plots > :first-child { grid-column: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+{{sections}}  </main>
+</body>
+</html>

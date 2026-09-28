@@ -1,0 +1,97 @@
+  <section class="results" aria-labelledby="results-heading">
+    <h2 id="results-heading">Results</h2>
+    <div class="result-group">
+      <h3>Navigation</h3>
+      <div class="result-row navigation-row">
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/navigation-adaptive.jpg" aria-label="Adaptive policy navigating the real-world merging lane">
+            <source src="assets/navigation-adaptive.mp4" type="video/mp4">
+            <a href="assets/navigation-adaptive.mp4">Download navigation video</a>
+          </video>
+          <figcaption>Adaptive computation in the real-world Merging Lane scenario.</figcaption>
+        </figure>
+        <div class="navigation-plots">
+          <figure>
+            <a href="assets/navigation-results.png"><img src="assets/navigation-results.png" loading="lazy" alt="Figure 4: adaptive and fixed budgets compared on success rate, total return, return on successes and harshness on successes."></a>
+            <figcaption>Fig. 4 · 300 episodes across three scenarios. The last two panels include successful episodes only.</figcaption>
+          </figure>
+          <figure class="reveal-animation">
+            <input type="checkbox" id="pause-regret"><label for="pause-regret">Pause animation</label>
+            <a class="figure-reveal layered-plot" href="assets/navigation-regret.png" aria-label="Figure 6: optimality regret along three fixed-commitment trajectories in Merging Lane">
+              <img class="plot-background" src="assets/navigation-regret-background.png" loading="lazy" alt="">
+              <img class="plot-curves" src="assets/navigation-regret.png" loading="lazy" alt="">
+            </a>
+            <figcaption>Fig. 6 · Budget optimality changes along a trajectory.</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/navigation-ablation.png"><img src="assets/navigation-ablation.png" loading="lazy" alt="Figure 7: navigation success and return with full inputs, planner statistics only, and inputs without planner statistics."></a>
+            <figcaption>Fig. 7 · Ablation of planner statistics.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+    <div class="result-group">
+      <h3>Drone with cable payload</h3>
+      <div class="result-row drone-row">
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-reactive.jpg" aria-label="Drone using a fixed reactive budget of one step">
+            <source src="assets/drone-reactive.mp4" type="video/mp4">
+            <a href="assets/drone-reactive.mp4">Download reactive drone video</a>
+          </video>
+          <figcaption><strong>Reactive · h = 1</strong><br>0/2 goals reached · 1.7× speed</figcaption>
+        </figure>
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-long.jpg" aria-label="Drone using a fixed long-deliberation budget of nine steps">
+            <source src="assets/drone-long.mp4" type="video/mp4">
+            <a href="assets/drone-long.mp4">Download long-deliberation drone video</a>
+          </video>
+          <figcaption><strong>Long deliberation · h = 9</strong><br>1/2 goals reached · 1.7× speed</figcaption>
+        </figure>
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-adaptive.jpg" aria-label="Drone using the learned adaptive computation budget">
+            <source src="assets/drone-adaptive.mp4" type="video/mp4">
+            <a href="assets/drone-adaptive.mp4">Download adaptive drone video</a>
+          </video>
+          <figcaption><strong>Adaptive · ours</strong><br>2/2 goals reached</figcaption>
+        </figure>
+        <figure>
+          <a href="assets/drone-results.png"><img src="assets/drone-results.png" loading="lazy" alt="Figure 9: mean cable-payload slalom return for the full policy, planner-statistics ablations and fixed budgets."></a>
+          <figcaption>Fig. 9 · Mean return over 20 episodes per method.</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="result-group">
+      <h3>Contact-rich manipulation</h3>
+      <div class="result-row arm-row">
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/arm.jpg" aria-label="Robot arm performing planar PushT manipulation">
+            <source src="assets/arm.mp4" type="video/mp4">
+            <a href="assets/arm.mp4">Download manipulation video</a>
+          </video>
+          <figcaption>Planar PushT manipulation.</figcaption>
+        </figure>
+        <div>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Manipulation results table">
+            <table>
+              <caption>Terminal errors after 600 steps: mean ± sample standard deviation over 16 matched episodes. Lower is better.</caption>
+              <thead><tr><th scope="col">Budget h</th><th scope="col">Δx [cm] ↓</th><th scope="col">Δθ [rad] ↓</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">1</th><td>9.41 ± 1.55</td><td>0.090 ± 0.055</td></tr>
+                <tr><th scope="row">2</th><td>8.22 ± 2.65</td><td>0.100 ± 0.066</td></tr>
+                <tr><th scope="row">3</th><td>5.79 ± 4.50</td><td>0.049 ± 0.057</td></tr>
+                <tr><th scope="row">4</th><td>4.19 ± 4.79</td><td>0.044 ± 0.056</td></tr>
+                <tr><th scope="row">5</th><td>4.48 ± 4.64</td><td>0.054 ± 0.060</td></tr>
+                <tr><th scope="row">6</th><td>4.95 ± 4.64</td><td>0.072 ± 0.071</td></tr>
+                <tr><th scope="row">7</th><td>1.21 ± 1.65</td><td>0.018 ± 0.023</td></tr>
+                <tr><th scope="row">8</th><td><strong>0.65</strong> ± 0.48</td><td>0.020 ± 0.017</td></tr>
+                <tr><th scope="row">9</th><td>1.13 ± 1.46</td><td>0.022 ± 0.018</td></tr>
+                <tr><th scope="row">10</th><td>0.76 ± 0.71</td><td><strong>0.016</strong> ± 0.014</td></tr>
+                <tr><th scope="row">Ours (h̄ = 8)</th><td>0.65 ± 0.48</td><td>0.020 ± 0.017</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="result-note">The policy selects h = 8 throughout, matching that fixed budget in this nominal setting.</p>
+        </div>
+      </div>
+    </div>
+  </section>

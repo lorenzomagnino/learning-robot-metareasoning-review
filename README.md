@@ -15,9 +15,8 @@ python3 build.py --check
 Commit the updated `index.html` with the source files. It is the generated page
 used by static hosting; edit the section files rather than `index.html` directly.
 
-Results media comes from `phi0_paper/slides/lab_presentation_completed.pptx`:
-navigation (slide 75), reactive drone (58), long-deliberation drone (59),
-adaptive drone (64), and manipulation (65). Videos are resized to 1280px wide
+Results media: navigation, reactive drone, long-deliberation drone,
+adaptive drone, and manipulation. Videos are resized to 1280px wide
 and exported without audio; source playback speeds are preserved.
 Plots reproduce paper Figures 4, 6, 7 and 9. The semi-MDP diagram is rendered
 from `tikz/epoch_clock.tex`.

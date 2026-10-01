@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
-SECTIONS = ("hero", "abstract", "method", "semi-mdp", "planner-statistics", "results")
+SECTIONS = ("hero", "abstract", "method", "semi-mdp", "planner-statistics", "results", "conclusion")
 
 
 def render():

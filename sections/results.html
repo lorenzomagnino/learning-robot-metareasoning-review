@@ -2,13 +2,14 @@
     <h2 id="results-heading">Results</h2>
     <div class="result-group">
       <h3>Navigation</h3>
+      <p class="result-highlight"><strong>Best overall success rate and total return.</strong> Across the navigation scenarios, our policy outperforms every fixed strategy by balancing deeper deliberation to find an optimal path with shorter commitments to receive feedback and avoid collisions.</p>
       <div class="result-row navigation-row">
         <figure>
           <video controls autoplay muted loop playsinline preload="auto" poster="assets/navigation-adaptive.jpg" aria-label="Adaptive policy navigating the real-world merging lane">
             <source src="assets/navigation-adaptive.mp4" type="video/mp4">
             <a href="assets/navigation-adaptive.mp4">Download navigation video</a>
           </video>
-          <figcaption>Adaptive computation in the real-world Merging Lane scenario.</figcaption>
+          <figcaption>Adaptive computation in the real-world Merging Lane scenario, with the presentation’s commitment graph, grey explanation pauses and labels.</figcaption>
         </figure>
         <div class="navigation-plots">
           <figure>
@@ -31,21 +32,29 @@
       </div>
     </div>
     <div class="result-group">
-      <h3>Drone with cable payload</h3>
+      <h3>Underactuated drone with cable payload</h3>
+      <p class="result-highlight"><strong>One task, two computation modes.</strong> Our policy discovers longer deliberation for navigation and shorter commitments for frequent feedback during stabilisation. This dual behaviour achieves an 80% success rate, while every fixed commitment fails to complete both goals.</p>
       <div class="result-row drone-row">
         <figure>
           <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-reactive.jpg" aria-label="Drone using a fixed reactive budget of one step">
             <source src="assets/drone-reactive.mp4" type="video/mp4">
             <a href="assets/drone-reactive.mp4">Download reactive drone video</a>
           </video>
-          <figcaption><strong>Reactive · h = 1</strong><br>0/2 goals reached · 1.7× speed</figcaption>
+          <figcaption><strong>Reactive · h = 1</strong><br><strong>Failure: collision.</strong><br>0/2 goals reached · 1.7× speed</figcaption>
         </figure>
         <figure>
           <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-long.jpg" aria-label="Drone using a fixed long-deliberation budget of nine steps">
             <source src="assets/drone-long.mp4" type="video/mp4">
             <a href="assets/drone-long.mp4">Download long-deliberation drone video</a>
           </video>
-          <figcaption><strong>Long deliberation · h = 9</strong><br>1/2 goals reached · 1.7× speed</figcaption>
+          <figcaption><strong>Long deliberation · h = 9</strong><br><strong>Failure: suboptimal stabilisation.</strong><br>1/2 goals reached by timeout · 1.7× speed</figcaption>
+        </figure>
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-intermediate.jpg" aria-label="Drone using a fixed intermediate budget of four steps">
+            <source src="assets/drone-intermediate.mp4" type="video/mp4">
+            <a href="assets/drone-intermediate.mp4">Download intermediate drone video</a>
+          </video>
+          <figcaption><strong>Intermediate · h = 4</strong><br><strong>Failure: suboptimal navigation.</strong><br>1/2 goals reached by timeout · 1.7× speed</figcaption>
         </figure>
         <figure>
           <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-adaptive.jpg" aria-label="Drone using the learned adaptive computation budget">
@@ -54,14 +63,15 @@
           </video>
           <figcaption><strong>Adaptive · ours</strong><br>2/2 goals reached</figcaption>
         </figure>
-        <figure>
-          <a href="assets/drone-results.png"><img src="assets/drone-results.png" loading="lazy" alt="Figure 9: mean cable-payload slalom return for the full policy, planner-statistics ablations and fixed budgets."></a>
-          <figcaption>Fig. 9 · Mean return over 20 episodes per method.</figcaption>
-        </figure>
       </div>
+      <figure class="drone-plot">
+        <a href="assets/drone-results.png"><img src="assets/drone-results.png" loading="lazy" alt="Figure 9: mean cable-payload slalom return for the full policy, planner-statistics ablations and fixed budgets."></a>
+        <figcaption>Fig. 9 · Mean return over 20 episodes per method.</figcaption>
+      </figure>
     </div>
     <div class="result-group">
       <h3>Contact-rich manipulation</h3>
+      <p class="result-highlight"><strong>Recovering the best fixed behaviour.</strong> In the nominal manipulation setting, the policy selects h = 8 throughout and matches the best fixed baseline. When adaptation offers no benefit, it recovers the best fixed behaviour.</p>
       <div class="result-row arm-row">
         <figure>
           <video controls autoplay muted loop playsinline preload="auto" poster="assets/arm.jpg" aria-label="Robot arm performing planar PushT manipulation">

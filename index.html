@@ -7,25 +7,28 @@
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; padding: 2rem; color: #171717; background: #fff; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    main { max-width: 1200px; margin: auto; text-align: center; }
+    main { padding-top: clamp(2rem, 6vw, 5rem); max-width: 1200px; margin: auto; text-align: center; }
     a { color: #4935a3; }
     h1 { max-width: 1050px; margin: auto; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; letter-spacing: -.045em; }
-    h2 { margin: 0 0 1rem; font-size: 1.5rem; }
-    main > h2 { margin: 1rem 0; }
+    h2 { scroll-margin-top: 2rem; margin: 0 0 1rem; font-size: 1.5rem; }
+    main > h2 { scroll-margin-top: 2rem; margin: 1rem 0; }
     h3 { margin: 0 0 .65rem; font-size: 1rem; }
     p { line-height: 1.6; }
     .code-link { display: inline-flex; align-items: center; gap: .45rem; padding: .45rem 1rem; border-radius: 999px; background: #171717; color: #fff; font-weight: 600; text-decoration: none; }
-    section { margin-top: 2rem; }
+    section { margin-top: 2rem; scroll-margin-top: 2rem; }
+    .section-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: .75rem clamp(.75rem, 2vw, 2rem); margin: 1.5rem 0 2rem; }
+    .section-nav a { font-weight: 600; text-underline-offset: .25em; }
+    .method > h2, .results > h2, .conclusion > h2 { text-align: center; font-size: clamp(1.75rem, 3vw, 2.25rem); margin-bottom: 1.5rem; }
     figure { margin: 0; min-width: 0; }
     img { display: block; width: 100%; height: auto; }
     video { display: block; width: 100%; background: #000; }
     main > video { max-width: 850px; max-height: 420px; margin: 1.5rem auto .75rem; }
     figcaption { margin-top: .5rem; font-size: .8rem; line-height: 1.45; color: #555; }
-    .abstract { max-width: 95ch; margin-inline: auto; }
-    .abstract p, .method p { text-align: left; }
-    .abstract p { margin: .65rem 0; font-size: .95rem; }
+    .abstract, .conclusion { max-width: 95ch; margin-inline: auto; }
+    .abstract p, .method p, .conclusion p { text-align: left; }
+    .abstract p, .conclusion p { margin: .65rem 0; font-size: .95rem; }
     .method figure { max-width: 1000px; margin: auto; }
-    .method p { max-width: 78ch; margin: 1rem auto 0; }
+    .method p { max-width: 1000px; margin: 1rem auto 0; }
     .semi-mdp, .planner-statistics, .results { text-align: left; }
     .semi-mdp h2, .planner-statistics h2 { font-size: 1.2rem; }
     .semi-mdp-grid { display: grid; grid-template-columns: .9fr 1.2fr 1fr; gap: 1.5rem; align-items: center; }
@@ -55,10 +58,12 @@
     .statistics-signals p { margin: 0; font-size: .875rem; }
     .result-row { display: grid; gap: 1.25rem; align-items: start; }
     .result-group + .result-group { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid #eee; }
-    .navigation-row { grid-template-columns: 1fr 2fr; }
+    .navigation-row { grid-template-columns: 1fr 2fr; align-items: center; }
     .navigation-plots { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .navigation-plots > :first-child { grid-column: 1 / -1; }
-    .drone-row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .drone-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .drone-plot { max-width: 580px; margin: 1.25rem auto 0; }
+    .result-highlight { padding: .8rem 1rem; margin: 0 0 1.25rem; border-left: 3px solid #4935a3; background: #f7f5fc; font-size: .95rem; }
     .arm-row { grid-template-columns: 1fr 1fr; align-items: center; }
     .results video { aspect-ratio: 16 / 9; object-fit: contain; }
     .drone-row video { aspect-ratio: auto; height: auto; }
@@ -86,6 +91,12 @@
   <h1>Learning Robot Metareasoning: Adaptive Computation Budgets for Real-Time Control</h1>
    <h2>ICRA2027</h2>
   <p><a class="code-link" href="https://anonymous.4open.science/r/phi0-05D7/README.md"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</a></p>
+  <nav class="section-nav" aria-label="Page sections">
+    <a href="#abstract-heading">Abstract</a>
+    <a href="#method-heading">Methods</a>
+    <a href="#results-heading">Results</a>
+    <a href="#conclusion-heading">Conclusion</a>
+  </nav>
   <video controls autoplay muted loop playsinline preload="auto" aria-label="Supplementary video">
     <source src="https://anonymous.4open.science/api/repo/learning-robot-metareasoning-review-68DC/file/icra_submission_supp_20MB.mp4" type="video/mp4">
     Your browser does not support embedded video. Use the download link below.
@@ -96,13 +107,14 @@
     <p>Planning while moving faces an historical trade-off between deliberation and reactivity. A planner running concurrently with execution needs time to compute, so the robot must commit to an open-loop action chunk for that duration: a longer commitment buys a better plan at the cost of feedback frequency. Existing controllers fix this action commitment, and consequently the computation budget, before deployment. However, the optimal computation time is highly state-dependent (due to factors such as unmodeled dynamics, safety constraints, and marginal optimisation gains), i.e. dynamic, therefore offline static tuning risks leaving systems blind during critical maneuvers or unable to find global effective solutions. We cast the identification of the optimal computation budget as a semi-Markov decision process (SMDP) in which a single decision defines both the robot action commitments and the time allocated to the solver. To solve this, we train a reinforcement-learning policy conditioned on the current state, the executing plan, and inexpensive planner statistics. Across ground-robot navigation, agile quadrotor flight, and contact-rich manipulation, the learned policy changes its budget with the demands of the scenario, discovering efficient reasoning patterns that outperform fixed-budget baselines.</p>
   </section>
   <section class="method" aria-labelledby="method-heading">
-    <h2 id="method-heading">Method</h2>
+    <h2 id="method-heading">Methods</h2>
     <figure>
       <a href="assets/method-overview.png" aria-label="View Figure 2 at full resolution">
         <img src="assets/method-overview.png" width="2042" height="592" loading="lazy" alt="Method overview: the state, previous plan and planner statistics inform a learned budget policy. Its chosen duration determines how long the robot executes its current plan while the solver computes the next one, adapting between long deliberation and reactive control.">
       </a>
     </figure>
-    <p>Our learned budget policy uses the robot state, current plan and planner statistics to choose how long to act before receiving feedback. This commitment also gives the solver time to compute the next plan, balancing deeper optimisation against faster reactions.</p>
+    <p>Our learned budget policy uses the <strong>robot state</strong>, <strong>current plan</strong> and <strong>planner statistics</strong> to choose how long to act before receiving feedback. This commitment also gives the solver time to compute the next plan, <em>balancing deeper optimisation against faster reactions</em>.</p>
+    <p>We formulate this choice of commitment and computation budget as a semi-Markov decision process (semi-MDP), described below.</p>
   </section>
   <section class="semi-mdp" aria-labelledby="semi-mdp-heading">
     <h2 id="semi-mdp-heading">Semi-MDP</h2>
@@ -122,6 +134,7 @@
   </section>
   <section class="planner-statistics" aria-labelledby="planner-statistics-heading">
     <h2 id="planner-statistics-heading">Planner Statistics</h2>
+    <p>At each planning step, a sampling-based receding-horizon solver produces a wealth of information about possible future trajectories, which we believe should inform the adaptive budget policy. We therefore extract three scalars that describe complementary properties: consensus among sampled plans, feasibility of the predicted trajectory, and world-model mismatch.</p>
     <div class="statistics-signals">
       <div>
         <h3>Effective sample size</h3>
@@ -144,13 +157,14 @@
     <h2 id="results-heading">Results</h2>
     <div class="result-group">
       <h3>Navigation</h3>
+      <p class="result-highlight"><strong>Best overall success rate and total return.</strong> Across the navigation scenarios, our policy outperforms every fixed strategy by balancing deeper deliberation to find an optimal path with shorter commitments to receive feedback and avoid collisions.</p>
       <div class="result-row navigation-row">
         <figure>
           <video controls autoplay muted loop playsinline preload="auto" poster="assets/navigation-adaptive.jpg" aria-label="Adaptive policy navigating the real-world merging lane">
             <source src="assets/navigation-adaptive.mp4" type="video/mp4">
             <a href="assets/navigation-adaptive.mp4">Download navigation video</a>
           </video>
-          <figcaption>Adaptive computation in the real-world Merging Lane scenario.</figcaption>
+          <figcaption>Adaptive computation in the real-world Merging Lane scenario, with the presentation’s commitment graph, grey explanation pauses and labels.</figcaption>
         </figure>
         <div class="navigation-plots">
           <figure>
@@ -173,21 +187,29 @@
       </div>
     </div>
     <div class="result-group">
-      <h3>Drone with cable payload</h3>
+      <h3>Underactuated drone with cable payload</h3>
+      <p class="result-highlight"><strong>One task, two computation modes.</strong> Our policy discovers longer deliberation for navigation and shorter commitments for frequent feedback during stabilisation. This dual behaviour achieves an 80% success rate, while every fixed commitment fails to complete both goals.</p>
       <div class="result-row drone-row">
         <figure>
           <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-reactive.jpg" aria-label="Drone using a fixed reactive budget of one step">
             <source src="assets/drone-reactive.mp4" type="video/mp4">
             <a href="assets/drone-reactive.mp4">Download reactive drone video</a>
           </video>
-          <figcaption><strong>Reactive · h = 1</strong><br>0/2 goals reached · 1.7× speed</figcaption>
+          <figcaption><strong>Reactive · h = 1</strong><br><strong>Failure: collision.</strong><br>0/2 goals reached · 1.7× speed</figcaption>
         </figure>
         <figure>
           <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-long.jpg" aria-label="Drone using a fixed long-deliberation budget of nine steps">
             <source src="assets/drone-long.mp4" type="video/mp4">
             <a href="assets/drone-long.mp4">Download long-deliberation drone video</a>
           </video>
-          <figcaption><strong>Long deliberation · h = 9</strong><br>1/2 goals reached · 1.7× speed</figcaption>
+          <figcaption><strong>Long deliberation · h = 9</strong><br><strong>Failure: suboptimal stabilisation.</strong><br>1/2 goals reached by timeout · 1.7× speed</figcaption>
+        </figure>
+        <figure>
+          <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-intermediate.jpg" aria-label="Drone using a fixed intermediate budget of four steps">
+            <source src="assets/drone-intermediate.mp4" type="video/mp4">
+            <a href="assets/drone-intermediate.mp4">Download intermediate drone video</a>
+          </video>
+          <figcaption><strong>Intermediate · h = 4</strong><br><strong>Failure: suboptimal navigation.</strong><br>1/2 goals reached by timeout · 1.7× speed</figcaption>
         </figure>
         <figure>
           <video controls autoplay muted loop playsinline preload="auto" poster="assets/drone-adaptive.jpg" aria-label="Drone using the learned adaptive computation budget">
@@ -196,14 +218,15 @@
           </video>
           <figcaption><strong>Adaptive · ours</strong><br>2/2 goals reached</figcaption>
         </figure>
-        <figure>
-          <a href="assets/drone-results.png"><img src="assets/drone-results.png" loading="lazy" alt="Figure 9: mean cable-payload slalom return for the full policy, planner-statistics ablations and fixed budgets."></a>
-          <figcaption>Fig. 9 · Mean return over 20 episodes per method.</figcaption>
-        </figure>
       </div>
+      <figure class="drone-plot">
+        <a href="assets/drone-results.png"><img src="assets/drone-results.png" loading="lazy" alt="Figure 9: mean cable-payload slalom return for the full policy, planner-statistics ablations and fixed budgets."></a>
+        <figcaption>Fig. 9 · Mean return over 20 episodes per method.</figcaption>
+      </figure>
     </div>
     <div class="result-group">
       <h3>Contact-rich manipulation</h3>
+      <p class="result-highlight"><strong>Recovering the best fixed behaviour.</strong> In the nominal manipulation setting, the policy selects h = 8 throughout and matches the best fixed baseline. When adaptation offers no benefit, it recovers the best fixed behaviour.</p>
       <div class="result-row arm-row">
         <figure>
           <video controls autoplay muted loop playsinline preload="auto" poster="assets/arm.jpg" aria-label="Robot arm performing planar PushT manipulation">
@@ -236,6 +259,11 @@
         </div>
       </div>
     </div>
+  </section>
+  <section class="conclusion" aria-labelledby="conclusion-heading">
+    <h2 id="conclusion-heading">Conclusion</h2>
+    <p>Robot metareasoning is a fundamental capability of embodied intelligence: an agent must decide how much to deliberate under environmental uncertainty and temporal constraints. We introduce a semi-MDP framework for robot metareasoning that learns adaptive computation budgets for real-time control. By leveraging planner statistics, the policy dynamically balances plan execution length and planner computation time based on plan quality and uncertainty. Across three environments with distinct sources of difficulty, the policy adapts its budget to the demands of the task. Our results show that online adaptation is highly beneficial when exploitable budget variation exists. It discovers longer commitments for global route, smooth transit and shorter ones near dynamic obstacles, critical passage and, in cable-payload flight, near targets and disturbances. In contact-rich planar manipulation, the learned policy converges to a constant budget matching the best fixed baseline, indicating that adaptation is unnecessary when the nominal task provides little exploitable variation.</p>
+    <p>Future work will explore richer, high-dimensional planner statistics, learned world models, and more expressive planning algorithms.</p>
   </section>
   </main>
 </body>

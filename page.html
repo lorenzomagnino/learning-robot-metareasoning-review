@@ -7,25 +7,28 @@
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; padding: 2rem; color: #171717; background: #fff; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    main { max-width: 1200px; margin: auto; text-align: center; }
+    main { padding-top: clamp(2rem, 6vw, 5rem); max-width: 1200px; margin: auto; text-align: center; }
     a { color: #4935a3; }
     h1 { max-width: 1050px; margin: auto; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; letter-spacing: -.045em; }
-    h2 { margin: 0 0 1rem; font-size: 1.5rem; }
-    main > h2 { margin: 1rem 0; }
+    h2 { scroll-margin-top: 2rem; margin: 0 0 1rem; font-size: 1.5rem; }
+    main > h2 { scroll-margin-top: 2rem; margin: 1rem 0; }
     h3 { margin: 0 0 .65rem; font-size: 1rem; }
     p { line-height: 1.6; }
     .code-link { display: inline-flex; align-items: center; gap: .45rem; padding: .45rem 1rem; border-radius: 999px; background: #171717; color: #fff; font-weight: 600; text-decoration: none; }
-    section { margin-top: 2rem; }
+    section { margin-top: 2rem; scroll-margin-top: 2rem; }
+    .section-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: .75rem clamp(.75rem, 2vw, 2rem); margin: 1.5rem 0 2rem; }
+    .section-nav a { font-weight: 600; text-underline-offset: .25em; }
+    .method > h2, .results > h2, .conclusion > h2 { text-align: center; font-size: clamp(1.75rem, 3vw, 2.25rem); margin-bottom: 1.5rem; }
     figure { margin: 0; min-width: 0; }
     img { display: block; width: 100%; height: auto; }
     video { display: block; width: 100%; background: #000; }
     main > video { max-width: 850px; max-height: 420px; margin: 1.5rem auto .75rem; }
     figcaption { margin-top: .5rem; font-size: .8rem; line-height: 1.45; color: #555; }
-    .abstract { max-width: 95ch; margin-inline: auto; }
-    .abstract p, .method p { text-align: left; }
-    .abstract p { margin: .65rem 0; font-size: .95rem; }
+    .abstract, .conclusion { max-width: 95ch; margin-inline: auto; }
+    .abstract p, .method p, .conclusion p { text-align: left; }
+    .abstract p, .conclusion p { margin: .65rem 0; font-size: .95rem; }
     .method figure { max-width: 1000px; margin: auto; }
-    .method p { max-width: 78ch; margin: 1rem auto 0; }
+    .method p { max-width: 1000px; margin: 1rem auto 0; }
     .semi-mdp, .planner-statistics, .results { text-align: left; }
     .semi-mdp h2, .planner-statistics h2 { font-size: 1.2rem; }
     .semi-mdp-grid { display: grid; grid-template-columns: .9fr 1.2fr 1fr; gap: 1.5rem; align-items: center; }
@@ -55,10 +58,12 @@
     .statistics-signals p { margin: 0; font-size: .875rem; }
     .result-row { display: grid; gap: 1.25rem; align-items: start; }
     .result-group + .result-group { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid #eee; }
-    .navigation-row { grid-template-columns: 1fr 2fr; }
+    .navigation-row { grid-template-columns: 1fr 2fr; align-items: center; }
     .navigation-plots { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .navigation-plots > :first-child { grid-column: 1 / -1; }
-    .drone-row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .drone-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .drone-plot { max-width: 580px; margin: 1.25rem auto 0; }
+    .result-highlight { padding: .8rem 1rem; margin: 0 0 1.25rem; border-left: 3px solid #4935a3; background: #f7f5fc; font-size: .95rem; }
     .arm-row { grid-template-columns: 1fr 1fr; align-items: center; }
     .results video { aspect-ratio: 16 / 9; object-fit: contain; }
     .drone-row video { aspect-ratio: auto; height: auto; }
